@@ -11,9 +11,15 @@ GraphNode::GraphNode(int a_data) {
 }
 
 Graph::Graph() {
-	sprite.initializeSprite("BombSprite.png", 100, 100, 40, 40);
-	sprite.makeBasicStructure(3, 1);
-	sprite.playFrame(0);
+
+}
+
+void Graph::Init(SpriteAnimated& a_sprite)
+{
+	sprite = a_sprite;
+	//sprite.initializeSprite("BombSprite.png", 100, 100, 40, 40);
+	//sprite.makeBasicStructure(3, 1);
+	//sprite.playFrame(0);
 }
 
 void Graph::addNode(GraphNode* a_node) {

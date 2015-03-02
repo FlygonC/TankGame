@@ -48,14 +48,15 @@ Graph createGridGraph(int a_width, int a_height) {
 
 
 int main() {
-	
+
 	FrameWork::screenHeight = 800;
 	FrameWork::screenWidth = 800;
 	FrameWork* root = new FrameWork();
 	float FDeltaTime = getDeltaTime();
 	srand(time(NULL));
-	
-	Graph Grid = createGridGraph(20, 20);
+
+
+
 
 	//Grid.printGraph();
 	//Grid.SearchAStar(Grid.nodes[0], Grid.nodes[399]);
@@ -66,9 +67,17 @@ int main() {
 	//test.playFrame(0);
 
 	SpriteAnimated TileStamp;
-	TileStamp.initializeSprite("BombSprite.png", 100, 100, 40, 40);
+	TileStamp.initializeSprite("BombSprite.png", 400, 100, 40, 40);
 	TileStamp.makeBasicStructure(3, 1);
 	TileStamp.playFrame(0);
+
+	Graph Grid = createGridGraph(5, 5);
+	Grid.Init(TileStamp);
+
+	//Grid.sprite = TileStamp;
+	//TileStamp.position.x += 100;
+
+
 
 	while (!glfwWindowShouldClose(root->window)) {
 		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
@@ -80,7 +89,7 @@ int main() {
 		}
 
 		Grid.sprite.Draw();
-		TileStamp.Draw();
+		//TileStamp.Draw();
 
 		resetTime();
 
