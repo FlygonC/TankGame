@@ -33,7 +33,7 @@ FrameWork::FrameWork() {
 	//Shader Copilation #########
 	vertexShader = glCreateShader(GL_VERTEX_SHADER);
 	const GLchar* vertexSource =
-		"#version 430\n"
+		"#version 330\n"
 		"layout(location = 0) in vec2 position;"
 		"layout(location = 1) in vec4 colorIn;"
 		"layout(location = 2) in vec2 UVIn;"
@@ -56,7 +56,7 @@ FrameWork::FrameWork() {
 
 	fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
 	const GLchar* fragmentSource =
-		"#version 430\n"
+		"#version 330\n"
 		"in vec4 colorOut;"
 		"in vec2 UVOut;"
 		"out vec4 outColor;"
@@ -76,7 +76,7 @@ FrameWork::FrameWork() {
 	}
 	fragmentShaderTextured = glCreateShader(GL_FRAGMENT_SHADER);
 	const GLchar* fragmentSourceTextured =
-		"#version 430\n"
+		"#version 330\n"
 		"in vec2 UVOut;"
 		"out vec4 outColor;"
 		"uniform sampler2D tex;"

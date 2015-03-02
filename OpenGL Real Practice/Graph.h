@@ -22,6 +22,8 @@ public:
 	GraphNode* NLast;
 };
 
+
+
 struct Edge {
 	GraphNode* startNode;
 	GraphNode* endNode;
@@ -39,6 +41,8 @@ public:
 	void printGraph();
 	void resetVisited();
 
+	void Init(SpriteAnimated& a_sprite);
+
 	static bool compareNodesG(const GraphNode* a_node1, const GraphNode* a_node2);
 	static bool compareNodesF(const GraphNode* a_node1, const GraphNode* a_node2);
 
@@ -47,7 +51,7 @@ public:
 	bool SearchAStar(GraphNode* a_start, GraphNode* a_end);
 
 	void drawGrid();
-//private:
+	//private:
 	int numOfNodes = 0;
 	NodeList nodes;
 	SpriteAnimated sprite;

@@ -5,7 +5,7 @@
 SpriteAnimated::SpriteAnimated() {
 	//Shader Sources
 	const char* vertexShaderSource =
-		"#version 430\n"
+		"#version 330\n"
 		"layout(location = 0) in vec3 position;"
 		//"layout(location = 1) in vec4 color;"
 		"layout(location = 1) in vec2 texCoords;"
@@ -18,7 +18,7 @@ SpriteAnimated::SpriteAnimated() {
 		"	gl_Position = MVPmatrix * (vec4(position, 1.0));"
 		"}";
 	const char* fragmentShaderSource =
-		"#version 430\n"
+		"#version 330\n"
 		//"in vec4 vColor;"
 		"in vec2 UVs;"
 		"out vec4 outColor;"
@@ -121,10 +121,10 @@ void SpriteAnimated::initializeSprite(const char* texturePath, float a_x, float 
 	height = a_height;
 
 	/*for (int i = 0; i < 128; i++) {
-		frames[i].x0 = 0;
-		frames[i].x1 = 0;
-		frames[i].y0 = 0;
-		frames[i].y1 = 0;
+	frames[i].x0 = 0;
+	frames[i].x1 = 0;
+	frames[i].y0 = 0;
+	frames[i].y1 = 0;
 	}*/
 	currentFrame = 0;
 	currentAnimation = animations[0];
@@ -192,9 +192,9 @@ void SpriteAnimated::makeBasicStructure(int a_numColumns, int a_numRows) {
 
 			frames[(i*a_numColumns) + j].y0 = (sheetHeight / a_numRows)*i;
 			frames[(i*a_numColumns) + j].y1 = (sheetHeight / a_numRows)*i + (sheetHeight / a_numRows);*/
-			setFrame((i*a_numColumns) + j, 
-				(sheetWidth / a_numColumns)*j,  
-				(sheetHeight / a_numRows)*i, 
+			setFrame((i*a_numColumns) + j,
+				(sheetWidth / a_numColumns)*j,
+				(sheetHeight / a_numRows)*i,
 				(sheetWidth / a_numColumns)*j + (sheetWidth / a_numColumns),
 				(sheetHeight / a_numRows)*i + (sheetHeight / a_numRows));
 		}
@@ -248,7 +248,7 @@ void SpriteAnimated::Update() {
 				currentFrame = currentAnimation.endFrame;
 				break;
 			case LOOP:
-			//default:
+				//default:
 				currentFrame -= (currentAnimation.endFrame + 1) - currentAnimation.startFrame;
 				break;
 			}
