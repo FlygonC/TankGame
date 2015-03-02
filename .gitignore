@@ -4,7 +4,6 @@
 # User-specific files
 *.suo
 *.user
-*.userosscache
 *.sln.docstates
 
 # Build results
@@ -194,6 +193,9 @@ FakesAssemblies/
 .AppleDouble
 .LSOverride
 
+# Icon must end with two \r
+Icon
+
 # Thumbnails
 ._*
 
@@ -226,6 +228,3 @@ $RECYCLE.BIN/
 *.msi
 *.msm
 *.msp
-
-# Windows shortcuts
-*.lnk
