@@ -76,6 +76,15 @@ void Graph::printGraph() {
 void Graph::resetVisited() {
 	for (NodeList::iterator nodeIter = nodes.begin(); nodeIter != nodes.end(); nodeIter++) {
 		(*nodeIter)->visited = false;
+		(*nodeIter)->data = 0;
+	}
+}
+
+GraphNode* Graph::getByPosition(int a_x, int a_y) {
+	for (NodeList::iterator nodeIter = nodes.begin(); nodeIter != nodes.end(); nodeIter++) {
+		if ((*nodeIter)->x == a_x && (*nodeIter)->y == a_y) {
+			return (*nodeIter);
+		}
 	}
 }
 
@@ -176,24 +185,31 @@ bool Graph::SearchAStar(GraphNode* a_start, GraphNode* a_end) {
 			continue;
 		}
 		checkCount++;
+		Current->data = 2;
 		std::cout << "Searching: " << Current->number << " (" << Current->x << "," << Current->y << ") From: " << Current->NLast->number << "  G: " << Current->Gscore << "  F: " << Current->Fscore << "  Count: " << checkCount << std::endl;
 		Current->visited = true;
 		if (Current == a_end) {
 			std::cout << "Done!" << std::endl;
 			GraphNode* Retrace = a_end;
+			//resetVisited();
 			while (Retrace != a_start) {
+				Retrace->data = 1;
 				std::cout << Retrace->number << " (" << Retrace->x << "," << Retrace->y << ") << " << std::endl;
 				Retrace = Retrace->NLast;
 			}
 			std::cout << a_start->number << std::endl;
-			resetVisited();
+			a_start->data = 2;
 			return true;
 		}
 		for (int i = 0; i < Current->edges.size(); i++) {
 			if (Current->edges[i].endNode->visited == false) {
+				int Hx = 0;
+				int Hy = 0;
 				NodeQueue.push_back(Current->edges[i].endNode);
 				Current->edges[i].endNode->Gscore = (Current->Gscore + Current->edges[i].weight);
-				Current->edges[i].endNode->Fscore = Current->edges[i].endNode->Gscore + ((a_end->x + a_end->y) - (Current->edges[i].endNode->x + Current->edges[i].endNode->y));
+				Hx = abs(a_end->x - Current->edges[i].endNode->x);
+				Hy = abs(a_end->y - Current->edges[i].endNode->y);
+				Current->edges[i].endNode->Fscore = Current->edges[i].endNode->Gscore + (Hx + Hy);
 				Current->edges[i].endNode->NLast = Current;
 			}
 		}
@@ -203,7 +219,7 @@ bool Graph::SearchAStar(GraphNode* a_start, GraphNode* a_end) {
 
 void Graph::drawGrid() {
 	for (NodeList::iterator nodeIter = nodes.begin(); nodeIter != nodes.end(); nodeIter++) {
-		sprite.position = glm::vec2(((*nodeIter)->x * 20) + 20, ((*nodeIter)->y * 20) + 20);
+		sprite.position = glm::vec2(((*nodeIter)->x * sprite.width) + sprite.width / 2, ((*nodeIter)->y * sprite.height) + sprite.height/2);
 		sprite.playFrame((*nodeIter)->data);
 		sprite.Draw();
 	}

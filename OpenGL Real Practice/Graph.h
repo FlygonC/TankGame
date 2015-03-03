@@ -38,6 +38,7 @@ public:
 	void setEdge(GraphNode* a_node1, GraphNode* a_node2, float a_weight);
 	void printGraph();
 	void resetVisited();
+	GraphNode* getByPosition(int a_x, int a_y);
 
 	static bool compareNodesG(const GraphNode* a_node1, const GraphNode* a_node2);
 	static bool compareNodesF(const GraphNode* a_node1, const GraphNode* a_node2);
