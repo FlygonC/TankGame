@@ -126,7 +126,7 @@ int main() {
 	Grid.blockNode(Grid.getByPosition(4, 9));
 	Grid.blockNode(Grid.getByPosition(4, 8));
 
-	Grid.SearchAStar(Grid.getByPosition(19, 1), Grid.getByPosition(0, 18), 0);
+	Grid.SearchAStar(Grid.getByPosition(0, 0), Grid.getByPosition(19, 18), 1);
 
 	//std::cout << Grid.raycast(Grid.getByPosition(0, 4), Grid.getByPosition(0, 3));
 

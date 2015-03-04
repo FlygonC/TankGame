@@ -188,7 +188,7 @@ bool Graph::SearchAStar(GraphNode* a_start, GraphNode* a_end, float a_inadmissib
 		}
 		checkCount++;
 		Current->data = 2;
-		std::cout << "Searching: " << Current->number << " (" << Current->x << "," << Current->y << ") From: " << Current->NLast->number << "  G: " << Current->Gscore << "  F: " << Current->Fscore << "  Count: " << checkCount << std::endl;
+		//std::cout << "Searching: " << Current->number << " (" << Current->x << "," << Current->y << ") From: " << Current->NLast->number << "  G: " << Current->Gscore << "  F: " << Current->Fscore << "  Count: " << checkCount << std::endl;
 		Current->visited = true;
 		if (Current == a_end) {
 			//std::cout << "Done!" << std::endl;
@@ -241,7 +241,7 @@ bool Graph::SearchThetaStar(GraphNode* a_start, GraphNode* a_end, float a_inadmi
 		}
 		checkCount++;
 		Current->data = 2;
-		std::cout << "Searching: " << Current->number << " (" << Current->x << "," << Current->y << ") From: " << Current->NLast->number << "  G: " << Current->Gscore << "  F: " << Current->Fscore << "  Count: " << checkCount << std::endl;
+		//std::cout << "Searching: " << Current->number << " (" << Current->x << "," << Current->y << ") From: " << Current->NLast->number << "  G: " << Current->Gscore << "  F: " << Current->Fscore << "  Count: " << checkCount << std::endl;
 		Current->visited = true;
 		if (Current == a_end) {
 			//std::cout << "Done!" << std::endl;
