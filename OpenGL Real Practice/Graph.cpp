@@ -76,7 +76,9 @@ void Graph::printGraph() {
 void Graph::resetVisited() {
 	for (NodeList::iterator nodeIter = nodes.begin(); nodeIter != nodes.end(); nodeIter++) {
 		(*nodeIter)->visited = false;
-		(*nodeIter)->data = 0;
+		if ((*nodeIter)->data < 4) {
+			(*nodeIter)->data = 0;
+		}
 	}
 }
 
@@ -165,7 +167,7 @@ bool Graph::SearchDijkstra(GraphNode* a_start, GraphNode* a_end) {
 	}
 }
 
-bool Graph::SearchAStar(GraphNode* a_start, GraphNode* a_end) {
+bool Graph::SearchAStar(GraphNode* a_start, GraphNode* a_end, float a_inadmissible) {
 	std::list<GraphNode*> NodeQueue;
 	for (NodeList::iterator nodeIter = nodes.begin(); nodeIter != nodes.end(); nodeIter++) {
 		(*nodeIter)->NLast = NULL;
@@ -181,7 +183,7 @@ bool Graph::SearchAStar(GraphNode* a_start, GraphNode* a_end) {
 		GraphNode* Current = NodeQueue.back();
 		NodeQueue.pop_back();
 		if (Current->visited == true) {
-			std::cout << "Passing Node " << Current->number << std::endl;
+			//std::cout << "Passing Node " << Current->number << std::endl;
 			continue;
 		}
 		checkCount++;
@@ -189,16 +191,17 @@ bool Graph::SearchAStar(GraphNode* a_start, GraphNode* a_end) {
 		std::cout << "Searching: " << Current->number << " (" << Current->x << "," << Current->y << ") From: " << Current->NLast->number << "  G: " << Current->Gscore << "  F: " << Current->Fscore << "  Count: " << checkCount << std::endl;
 		Current->visited = true;
 		if (Current == a_end) {
-			std::cout << "Done!" << std::endl;
+			//std::cout << "Done!" << std::endl;
 			GraphNode* Retrace = a_end;
 			//resetVisited();
 			while (Retrace != a_start) {
 				Retrace->data = 1;
-				std::cout << Retrace->number << " (" << Retrace->x << "," << Retrace->y << ") << " << std::endl;
+				//std::cout << Retrace->number << " (" << Retrace->x << "," << Retrace->y << ") << " << std::endl;
 				Retrace = Retrace->NLast;
 			}
-			std::cout << a_start->number << std::endl;
-			a_start->data = 2;
+			//std::cout << a_start->number << std::endl;
+			a_start->data = 3;
+			a_end->data = 3;
 			return true;
 		}
 		for (int i = 0; i < Current->edges.size(); i++) {
@@ -209,8 +212,66 @@ bool Graph::SearchAStar(GraphNode* a_start, GraphNode* a_end) {
 				Current->edges[i].endNode->Gscore = (Current->Gscore + Current->edges[i].weight);
 				Hx = abs(a_end->x - Current->edges[i].endNode->x);
 				Hy = abs(a_end->y - Current->edges[i].endNode->y);
-				Current->edges[i].endNode->Fscore = Current->edges[i].endNode->Gscore + (Hx + Hy);
+				Current->edges[i].endNode->Fscore = Current->edges[i].endNode->Gscore + ((Hx + Hy) * (a_inadmissible + 1));
 				Current->edges[i].endNode->NLast = Current;
+			}
+		}
+		NodeQueue.sort(compareNodesF);
+	}
+}
+
+bool Graph::SearchThetaStar(GraphNode* a_start, GraphNode* a_end, float a_inadmissible) {
+	std::list<GraphNode*> NodeQueue;
+	for (NodeList::iterator nodeIter = nodes.begin(); nodeIter != nodes.end(); nodeIter++) {
+		(*nodeIter)->NLast = NULL;
+		(*nodeIter)->Gscore = INFINITY;
+		//(*nodeIter)->Fscore = INFINITY;
+	}
+	NodeQueue.push_back(a_start);
+	a_start->NLast = NodeQueue.back();
+	a_start->Gscore = 0;
+	a_start->Fscore = 0;
+	int checkCount = 0;
+	while (!NodeQueue.empty()) {
+		GraphNode* Current = NodeQueue.back();
+		NodeQueue.pop_back();
+		if (Current->visited == true) {
+			//std::cout << "Passing Node " << Current->number << std::endl;
+			continue;
+		}
+		checkCount++;
+		Current->data = 2;
+		std::cout << "Searching: " << Current->number << " (" << Current->x << "," << Current->y << ") From: " << Current->NLast->number << "  G: " << Current->Gscore << "  F: " << Current->Fscore << "  Count: " << checkCount << std::endl;
+		Current->visited = true;
+		if (Current == a_end) {
+			//std::cout << "Done!" << std::endl;
+			GraphNode* Retrace = a_end;
+			//resetVisited();
+			while (Retrace != a_start) {
+				Retrace->data = 1;
+				std::cout << Retrace->number << " (" << Retrace->x << "," << Retrace->y << ") << " << std::endl;
+				Retrace = Retrace->NLast;
+			}
+			//std::cout << a_start->number << std::endl;
+			a_start->data = 3;
+			a_end->data = 3;
+			return true;
+		}
+		for (int i = 0; i < Current->edges.size(); i++) {
+			if (Current->edges[i].endNode->visited == false) {
+				int Hx = 0;
+				int Hy = 0;
+				NodeQueue.push_back(Current->edges[i].endNode);
+				Current->edges[i].endNode->Gscore = (Current->Gscore + Current->edges[i].weight);
+				Hx = abs(a_end->x - Current->edges[i].endNode->x);
+				Hy = abs(a_end->y - Current->edges[i].endNode->y);
+				Current->edges[i].endNode->Fscore = Current->edges[i].endNode->Gscore + ((Hx + Hy) * (a_inadmissible + 1));
+				if (raycast(Current->NLast, Current->edges[i].endNode)) {
+					Current->edges[i].endNode->NLast = Current->NLast;
+				}
+				else {
+					Current->edges[i].endNode->NLast = Current;
+				}
 			}
 		}
 		NodeQueue.sort(compareNodesF);
@@ -223,4 +284,46 @@ void Graph::drawGrid() {
 		sprite.playFrame((*nodeIter)->data);
 		sprite.Draw();
 	}
+}
+
+void Graph::blockNode(GraphNode* a_target) {
+	a_target->edges.clear();
+
+	for (NodeList::iterator nodeIter = nodes.begin(); nodeIter != nodes.end(); nodeIter++) {
+		
+		EdgeList::iterator toDelete = (*nodeIter)->edges.end();
+		//Edge loop
+		for (EdgeList::iterator edgeIter = (*nodeIter)->edges.begin(); edgeIter != (*nodeIter)->edges.end(); edgeIter++) {
+			//if iterator is equal to edge that points to target node, set it to remove
+			if ((*edgeIter).endNode == a_target) {
+				toDelete = edgeIter;
+			}
+		}
+		//Delete the edge, if one was found
+		if (toDelete != (*nodeIter)->edges.end()) {
+			(*nodeIter)->edges.erase(toDelete);
+		}
+	}
+
+	a_target->data = 4;
+}
+
+bool Graph::raycast(GraphNode* a_start, GraphNode* a_target) {
+	bool temp = true;
+	glm::vec2 startpos = glm::vec2((a_start->x * sprite.width) + sprite.width / 2, (a_start->y * sprite.height) + sprite.height / 2);
+	glm::vec2 targetpos = glm::vec2((a_target->x * sprite.width) + sprite.width / 2, (a_target->y * sprite.height) + sprite.height / 2);
+	for (int i = 0; i < 100; i++) {
+		for (NodeList::iterator nodeIter = nodes.begin(); nodeIter != nodes.end(); nodeIter++) {
+			if ((*nodeIter)->data == 4) {
+				glm::vec2 lerpPos = glm::lerp(startpos, targetpos, i*0.01f);
+				glm::vec2 bottomleft = glm::vec2(((*nodeIter)->x * sprite.width), ((*nodeIter)->y * sprite.height));
+				glm::vec2 topright = glm::vec2(((*nodeIter)->x * sprite.width) + sprite.width, ((*nodeIter)->y * sprite.height) + sprite.height);
+				if (lerpPos.x >= bottomleft.x && lerpPos.x <= topright.x &&
+					lerpPos.y >= bottomleft.y && lerpPos.y <= topright.y) {
+					temp = false;
+				}
+			}
+		}
+	}
+	return temp;
 }

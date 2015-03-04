@@ -26,19 +26,19 @@ Graph createGridGraph(int a_width, int a_height) {
 		for (int i = 0; i < a_width; i++) {
 			GraphNode* T = returnGraph.nodes[(j*a_width) + i];
 			if (i > 0) {//edge to node west
-				Edge newEdge;
+				//Edge newEdge;
 				returnGraph.setEdge(T, returnGraph.nodes[((j*a_width) + i) - 1], 1);
 			}
 			if (i < a_width - 1) {//edge to node East
-				Edge newEdge;
+				//Edge newEdge;
 				returnGraph.setEdge(T, returnGraph.nodes[((j*a_width) + i) + 1], 1);
 			}
 			if (j > 0) {//edge to node north
-				Edge newEdge;
+				//Edge newEdge;
 				returnGraph.setEdge(T, returnGraph.nodes[((j*a_width) + i) - a_width], 1);
 			}
 			if (j < a_height - 1) {//edge to node south
-				Edge newEdge;
+				//Edge newEdge;
 				returnGraph.setEdge(T, returnGraph.nodes[((j*a_width) + i) + a_width], 1);
 			}
 		}
@@ -57,77 +57,87 @@ int main() {
 	
 	Graph Grid = createGridGraph(20, 20);
 
-	//Grid.printGraph();
-	//Grid.SearchAStar(Grid.nodes[0], Grid.nodes[399]);
-
-	//SpriteAnimated test;
-	//test.initializeSprite("BombSprite.png", 100, 100, 80, 20);
-	//test.makeBasicStructure(3, 1);
-	//test.playFrame(0);
-
 	SpriteAnimated TileStamp;
 	TileStamp.initializeSprite("gridtiles.png", 200, 100, 40, 40);
-	TileStamp.makeBasicStructure(3, 1);
+	TileStamp.makeBasicStructure(5, 1);
 	TileStamp.playFrame(0);
 
 	Grid.sprite = TileStamp;
 
-	Grid.removeNode(Grid.getByPosition(0, 19));
-	Grid.removeNode(Grid.getByPosition(1, 18));
-	Grid.removeNode(Grid.getByPosition(2, 17));
-	Grid.removeNode(Grid.getByPosition(3, 16));
-	Grid.removeNode(Grid.getByPosition(4, 15));
-	Grid.removeNode(Grid.getByPosition(5, 14));
-	Grid.removeNode(Grid.getByPosition(6, 14));
-	Grid.removeNode(Grid.getByPosition(7, 14));
-	Grid.removeNode(Grid.getByPosition(8, 14));
-	Grid.removeNode(Grid.getByPosition(9, 14));
-	Grid.removeNode(Grid.getByPosition(10, 14));
+	Grid.blockNode(Grid.getByPosition(19, 0));
+	Grid.blockNode(Grid.getByPosition(18, 1));
+	Grid.blockNode(Grid.getByPosition(17, 2));
+	Grid.blockNode(Grid.getByPosition(16, 3));
+	Grid.blockNode(Grid.getByPosition(15, 4));
 
+	Grid.blockNode(Grid.getByPosition(14, 4));
+	Grid.blockNode(Grid.getByPosition(13, 4));
+	Grid.blockNode(Grid.getByPosition(12, 4));
+	Grid.blockNode(Grid.getByPosition(11, 5));
+	Grid.blockNode(Grid.getByPosition(10, 6));
+	
+	Grid.blockNode(Grid.getByPosition(13, 6));
+	Grid.blockNode(Grid.getByPosition(12, 7));
+	Grid.blockNode(Grid.getByPosition(11, 8));
+	Grid.blockNode(Grid.getByPosition(10, 9));
+	Grid.blockNode(Grid.getByPosition(9, 10));
+	Grid.blockNode(Grid.getByPosition(8, 11));
+	Grid.blockNode(Grid.getByPosition(7, 12));
+	Grid.blockNode(Grid.getByPosition(6, 13));
+	//Grid.blockNode(Grid.getByPosition(5, 14));
+	Grid.blockNode(Grid.getByPosition(4, 15));
+	Grid.blockNode(Grid.getByPosition(3, 16));
+	Grid.blockNode(Grid.getByPosition(2, 17));
+	Grid.blockNode(Grid.getByPosition(1, 18));
+	Grid.blockNode(Grid.getByPosition(0, 19));
 
-	Grid.removeNode(Grid.getByPosition(5, 10));
-	Grid.removeNode(Grid.getByPosition(6, 10));
-	Grid.removeNode(Grid.getByPosition(7, 10));
-	Grid.removeNode(Grid.getByPosition(8, 10));
-	Grid.removeNode(Grid.getByPosition(9, 10));
+	Grid.blockNode(Grid.getByPosition(9, 9));
+	Grid.blockNode(Grid.getByPosition(10, 10));
 
-	Grid.removeNode(Grid.getByPosition(5, 11));
-	Grid.removeNode(Grid.getByPosition(5, 12));
-	Grid.removeNode(Grid.getByPosition(5, 13));
+	Grid.blockNode(Grid.getByPosition(5, 15));
+	Grid.blockNode(Grid.getByPosition(6, 15));
+	Grid.blockNode(Grid.getByPosition(7, 15));
+	Grid.blockNode(Grid.getByPosition(8, 15));
+	Grid.blockNode(Grid.getByPosition(9, 15));
+	Grid.blockNode(Grid.getByPosition(10, 15));
+	Grid.blockNode(Grid.getByPosition(11, 15));
+	Grid.blockNode(Grid.getByPosition(12, 15));
+	Grid.blockNode(Grid.getByPosition(13, 15));
+	Grid.blockNode(Grid.getByPosition(14, 15));
+	Grid.blockNode(Grid.getByPosition(15, 15));
+	Grid.blockNode(Grid.getByPosition(15, 14));
+	Grid.blockNode(Grid.getByPosition(15, 13));
+	Grid.blockNode(Grid.getByPosition(15, 12));
+	Grid.blockNode(Grid.getByPosition(15, 11));
 
-	Grid.removeNode(Grid.getByPosition(7, 12));
-	Grid.removeNode(Grid.getByPosition(8, 12));
-	Grid.removeNode(Grid.getByPosition(9, 12));
-	Grid.removeNode(Grid.getByPosition(10, 12));
-	Grid.removeNode(Grid.getByPosition(11, 12));
-	Grid.removeNode(Grid.getByPosition(12, 12));
-	Grid.removeNode(Grid.getByPosition(13, 12));
-	Grid.removeNode(Grid.getByPosition(14, 12));
-	Grid.removeNode(Grid.getByPosition(15, 12));
-	Grid.removeNode(Grid.getByPosition(16, 12));
+	Grid.blockNode(Grid.getByPosition(0, 5));
+	Grid.blockNode(Grid.getByPosition(1, 5));
+	Grid.blockNode(Grid.getByPosition(2, 5));
+	Grid.blockNode(Grid.getByPosition(3, 5));
+	Grid.blockNode(Grid.getByPosition(4, 5));
+	Grid.blockNode(Grid.getByPosition(5, 5));
+	Grid.blockNode(Grid.getByPosition(6, 5));
+	
+	Grid.blockNode(Grid.getByPosition(4, 14));
+	Grid.blockNode(Grid.getByPosition(4, 13));
+	Grid.blockNode(Grid.getByPosition(4, 12));
+	Grid.blockNode(Grid.getByPosition(4, 11));
+	Grid.blockNode(Grid.getByPosition(4, 10));
+	Grid.blockNode(Grid.getByPosition(4, 9));
+	Grid.blockNode(Grid.getByPosition(4, 8));
 
-	Grid.removeNode(Grid.getByPosition(0, 7));
-	Grid.removeNode(Grid.getByPosition(1, 7));
-	Grid.removeNode(Grid.getByPosition(2, 7));
-	Grid.removeNode(Grid.getByPosition(3, 7));
-	Grid.removeNode(Grid.getByPosition(4, 7));
-	Grid.removeNode(Grid.getByPosition(5, 7));
-	Grid.removeNode(Grid.getByPosition(6, 7));
+	Grid.SearchAStar(Grid.getByPosition(19, 1), Grid.getByPosition(0, 18), 0);
 
-	Grid.removeNode(Grid.getByPosition(8, 19));
-	Grid.removeNode(Grid.getByPosition(8, 18));
-	Grid.removeNode(Grid.getByPosition(8, 17));
+	//std::cout << Grid.raycast(Grid.getByPosition(0, 4), Grid.getByPosition(0, 3));
 
-	Grid.SearchAStar(Grid.getByPosition(3, 19), Grid.getByPosition(0, 11));
+	//float timePass = 0;
 
 	while (!glfwWindowShouldClose(root->window)) {
 		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT);
 
 		FDeltaTime = getDeltaTime();
-		if (FDeltaTime >= 0.1) {
-			FDeltaTime = 0.1;
-		}
+		
 
 
 		Grid.drawGrid();
