@@ -1,4 +1,5 @@
-#pragma once
+#ifndef _SPRITE_ANIMATED_H_
+#define _SPRITE_ANIMATED_H_
 
 #include <GL/glew.h>
 #include <GL/wglew.h>
@@ -59,3 +60,5 @@ public:
 	Animation animations[16];
 	Frame frames[256];
 };
+
+#endif

@@ -1,4 +1,5 @@
-#pragma once
+#ifndef _SPRITE_H_
+#define _SPRITE_H_
 
 #include <GL/glew.h>
 #include <GL/wglew.h>
@@ -30,3 +31,5 @@ public:
 	GLuint VBO, UVBO, EBO, VAO, VertexShader, FragmentShader, ShaderProgram, Texture;
 	glm::mat4 MVP;
 };
+
+#endif

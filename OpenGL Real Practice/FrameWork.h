@@ -1,4 +1,5 @@
-#pragma once
+#ifndef _FRAMEWORK_H_
+#define _FRAMEWORK_H_
 
 #include <GL/glew.h>
 #include <GL/wglew.h>
@@ -17,10 +18,10 @@ public:
 	void Orthograghic(float a_fLeft, float a_fRight, float a_fTop, float a_fBottom, float a_fNear, float a_fFar, glm::mat4 & mat);
 
 	static GLFWwindow* window;
-	GLuint vertexShader;
-	GLuint fragmentShader;
-	GLuint fragmentShaderTextured;
-	static GLuint shaderProgram, shaderProgramTextured;
+	//GLuint vertexShader;
+	//GLuint fragmentShader;
+	//GLuint fragmentShaderTextured;
+	//static GLuint shaderProgram, shaderProgramTextured;
 	static int screenWidth, screenHeight;
 	static glm::mat4 Ortho;
 	static bool getKeyPressed(GLuint a_key);
@@ -30,3 +31,5 @@ public:
 
 float getDeltaTime();
 void resetTime();
+
+#endif

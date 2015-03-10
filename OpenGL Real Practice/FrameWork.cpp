@@ -3,8 +3,8 @@
 #include "FrameWork.h"
 
 GLFWwindow* FrameWork::window;
-GLuint FrameWork::shaderProgram;
-GLuint FrameWork::shaderProgramTextured;
+//GLuint FrameWork::shaderProgram;
+//GLuint FrameWork::shaderProgramTextured;
 int FrameWork::screenHeight = 400;
 int FrameWork::screenWidth = 800;
 glm::mat4 FrameWork::Ortho;
@@ -29,18 +29,20 @@ FrameWork::FrameWork() {
 	//Other GL things #########
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+
 	//Shaders #########
 	//Shader Copilation #########
-	vertexShader = glCreateShader(GL_VERTEX_SHADER);
+	/*vertexShader = glCreateShader(GL_VERTEX_SHADER);
 	const GLchar* vertexSource =
 		"#version 430\n"
 		"layout(location = 0) in vec2 position;"
-		"layout(location = 1) in vec4 colorIn;"
+		//"layout(location = 1) in vec4 colorIn;"
 		"layout(location = 2) in vec2 UVIn;"
 		"out vec4 colorOut;"
 		"out vec2 UVOut;"
 		"void main(){"
-		"	colorOut = colorIn;"
+		//"	colorOut = colorIn;"
 		"	UVOut = UVIn;"
 		"	gl_Position = vec4(position, 0.0, 1.0);"
 		"}";
@@ -77,11 +79,13 @@ FrameWork::FrameWork() {
 	fragmentShaderTextured = glCreateShader(GL_FRAGMENT_SHADER);
 	const GLchar* fragmentSourceTextured =
 		"#version 430\n"
-		"in vec2 UVOut;"
+		//"in vec4 vColor;"
+		"in vec2 UVs;"
 		"out vec4 outColor;"
 		"uniform sampler2D tex;"
-		"void main(){"
-		"	outColor = texture(tex, UVOut);"
+		"void main() {"
+		"	outColor = texture(tex, UVs) * (vec4(1.0, 1.0, 1.0, 1.0));"
+		//"	outColor = vec4(1.0,1.0,1.0,1.0);"
 		"}";
 	glShaderSource(fragmentShaderTextured, 1, &fragmentSourceTextured, NULL);
 	glCompileShader(fragmentShaderTextured);
@@ -105,13 +109,15 @@ FrameWork::FrameWork() {
 	//Texture Settings
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	*/
+
 
 	Orthograghic(0, screenWidth, screenHeight, 0, -1, 1, Ortho);
 }
 FrameWork::~FrameWork() {
-	glDeleteProgram(shaderProgram);
-	glDeleteShader(fragmentShader);
-	glDeleteShader(vertexShader);
+	//glDeleteProgram(shaderProgram);
+	//glDeleteShader(fragmentShader);
+	//glDeleteShader(vertexShader);
 	glfwTerminate();
 }
 

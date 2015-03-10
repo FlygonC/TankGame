@@ -10,6 +10,7 @@
 #include <sstream>
 
 #include "Graph.h"
+#include "AgentBase.h"
 
 Graph createGridGraph(int a_width, int a_height) {
 	Graph returnGraph;
@@ -55,14 +56,16 @@ int main() {
 	float FDeltaTime = getDeltaTime();
 	srand(time(NULL));
 	
-	Graph Grid = createGridGraph(20, 20);
+	Graph Grid = Graph();
+	//Graph Justin = Graph();
+	Grid = createGridGraph(20, 20);
 
-	SpriteAnimated TileStamp;
-	TileStamp.initializeSprite("gridtiles.png", 200, 100, 40, 40);
+	//SpriteAnimated TileStamp;
+	/*TileStamp.initializeSprite("gridtiles.png", 200, 100, 40, 40);
 	TileStamp.makeBasicStructure(5, 1);
-	TileStamp.playFrame(0);
+	TileStamp.playFrame(0);*/
 
-	Grid.sprite = TileStamp;
+	//Grid.sprite = TileStamp;
 
 	Grid.blockNode(Grid.getByPosition(19, 0));
 	Grid.blockNode(Grid.getByPosition(18, 1));
@@ -126,11 +129,18 @@ int main() {
 	Grid.blockNode(Grid.getByPosition(4, 9));
 	Grid.blockNode(Grid.getByPosition(4, 8));
 
-	Grid.SearchAStar(Grid.getByPosition(0, 0), Grid.getByPosition(19, 18), 1);
+	Grid.SearchAStar(Grid.getByPosition(0, 0), Grid.getByPosition(19, 18), 0);
 
 	//std::cout << Grid.raycast(Grid.getByPosition(0, 4), Grid.getByPosition(0, 3));
 
 	//float timePass = 0;
+
+	Agent testAgent1;
+	Agent testAgent2;
+
+	testAgent2.position.y = 400;
+
+	//double mousex, mousey;
 
 	while (!glfwWindowShouldClose(root->window)) {
 		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
@@ -138,11 +148,22 @@ int main() {
 
 		FDeltaTime = getDeltaTime();
 		
-
+		
 
 		Grid.drawGrid();
 		//Grid.sprite.Draw();
 		//TileStamp.Draw();
+
+		//glfwGetCursorPos(FrameWork::window, &mousex, &mousey);
+		//testAgent2.position = glm::vec2(mousex, 800 - mousey);
+
+		//testAgent1.velocity += testAgent1.wander(100, 150, 0) / 5.f;
+		//std::cout << testAgent1.velocity.x << "," << testAgent1.velocity.x << std::endl;
+		//testAgent2.velocity += testAgent2.seek(testAgent1.position);
+
+		testAgent1.Update(FDeltaTime);
+		testAgent2.Update(FDeltaTime);
+		//testAgent.sprite.Draw();
 
 		resetTime();
 

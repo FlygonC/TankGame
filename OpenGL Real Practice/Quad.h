@@ -1,4 +1,5 @@
-#pragma once
+#ifndef _QUAD_H_
+#define _QUAD_H_
 
 #include <GL/glew.h>
 #include <GL/wglew.h>
@@ -20,3 +21,5 @@ public:
 	GLuint VBO, EBO, VAO, VertexShader, FragmentShader, ShaderProgram;
 	glm::mat4 MVP;
 };
+
+#endif

@@ -1,6 +1,14 @@
 #pragma once
 
 #include "Graph.h"
+
+Graph::Graph() {
+	sprite.initializeSprite("gridtiles.png", 100, 100, 40, 40);
+	sprite.makeBasicStructure(5, 1);
+	sprite.playFrame(0);
+	sprite.fps = 0;
+}
+
 GraphNode::GraphNode()
 {
 
@@ -8,12 +16,6 @@ GraphNode::GraphNode()
 
 GraphNode::GraphNode(int a_data) {
 	data = a_data;
-}
-
-Graph::Graph() {
-	sprite.initializeSprite("BombSprite.png", 100, 100, 40, 40);
-	sprite.makeBasicStructure(3, 1);
-	sprite.playFrame(0);
 }
 
 void Graph::addNode(GraphNode* a_node) {

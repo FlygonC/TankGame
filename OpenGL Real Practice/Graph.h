@@ -1,4 +1,5 @@
-#pragma once
+#ifndef _GRAPH_H_
+#define _GRAPH_H_
 
 #include <vector>
 #include <stack>
@@ -54,7 +55,10 @@ public:
 	void blockNode(GraphNode* a_target);
 	bool raycast(GraphNode* a_start, GraphNode* a_target);
 //private:
+	SpriteAnimated sprite;
 	int numOfNodes = 0;
 	NodeList nodes;
-	SpriteAnimated sprite;
+	
 };
+
+#endif

@@ -1,4 +1,5 @@
-#pragma once
+#ifndef _SPRITE_STRING_H_
+#define _SPRITE_STRING_H_
 
 #include "SpriteAnimated.h"
 #include <String.h>
@@ -18,3 +19,5 @@ public:
 	SpriteAnimated output;
 	float scale, x, y;
 };
+
+#endif

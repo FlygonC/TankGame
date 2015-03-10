@@ -73,6 +73,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="AgentBase.cpp" />
+    <ClCompile Include="Flee.cpp" />
     <ClCompile Include="FrameWork.cpp" />
     <ClCompile Include="Graph.cpp" />
     <ClCompile Include="main.cpp" />
@@ -80,14 +82,18 @@
     <ClCompile Include="Sprite.cpp" />
     <ClCompile Include="SpriteAnimated.cpp" />
     <ClCompile Include="SpriteString.cpp" />
+    <ClCompile Include="Seek.cpp" />
+    <ClCompile Include="Wander.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AgentBase.h" />
     <ClInclude Include="FrameWork.h" />
     <ClInclude Include="Graph.h" />
     <ClInclude Include="Quad.h" />
     <ClInclude Include="Sprite.h" />
     <ClInclude Include="SpriteAnimated.h" />
     <ClInclude Include="SpriteString.h" />
+    <ClInclude Include="Steering Behavior.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
