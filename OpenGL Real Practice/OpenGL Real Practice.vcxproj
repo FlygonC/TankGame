@@ -41,6 +41,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <IncludePath>$(ProjectDir)Includes\;$(IncludePath)</IncludePath>
     <LibraryPath>$(ProjectDir)Libraries\;$(LibraryPath)</LibraryPath>
+    <SourcePath>$(ProjectDir)Source\;$(SourcePath)</SourcePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -73,27 +74,36 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="AgentBase.cpp" />
-    <ClCompile Include="Flee.cpp" />
-    <ClCompile Include="FrameWork.cpp" />
-    <ClCompile Include="Graph.cpp" />
-    <ClCompile Include="main.cpp" />
-    <ClCompile Include="Quad.cpp" />
-    <ClCompile Include="Sprite.cpp" />
-    <ClCompile Include="SpriteAnimated.cpp" />
-    <ClCompile Include="SpriteString.cpp" />
-    <ClCompile Include="Seek.cpp" />
-    <ClCompile Include="Wander.cpp" />
+    <ClInclude Include="Includes\AgentBase.h" />
+    <ClInclude Include="Includes\Flock.h" />
+    <ClInclude Include="Includes\FrameWork.h" />
+    <ClInclude Include="Includes\Graph.h" />
+    <ClInclude Include="Includes\Quad.h" />
+    <ClInclude Include="Includes\Sprite.h" />
+    <ClInclude Include="Includes\SpriteAnimated.h" />
+    <ClInclude Include="Includes\SpriteString.h" />
+    <ClInclude Include="Includes\SteeringBehavior.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="AgentBase.h" />
-    <ClInclude Include="FrameWork.h" />
-    <ClInclude Include="Graph.h" />
-    <ClInclude Include="Quad.h" />
-    <ClInclude Include="Sprite.h" />
-    <ClInclude Include="SpriteAnimated.h" />
-    <ClInclude Include="SpriteString.h" />
-    <ClInclude Include="Steering Behavior.h" />
+    <ClCompile Include="Source\AgentBase.cpp" />
+    <ClCompile Include="Source\Alignment.cpp" />
+    <ClCompile Include="Source\Avoid.cpp" />
+    <ClCompile Include="Source\Cohesion.cpp" />
+    <ClCompile Include="Source\Evade.cpp" />
+    <ClCompile Include="Source\Flee.cpp" />
+    <ClCompile Include="Source\Flock.cpp" />
+    <ClCompile Include="Source\FrameWork.cpp" />
+    <ClCompile Include="Source\Graph.cpp" />
+    <ClCompile Include="Source\GraphNode.cpp" />
+    <ClCompile Include="Source\main.cpp" />
+    <ClCompile Include="Source\Persue.cpp" />
+    <ClCompile Include="Source\Quad.cpp" />
+    <ClCompile Include="Source\Seek.cpp" />
+    <ClCompile Include="Source\Seperation.cpp" />
+    <ClCompile Include="Source\Sprite.cpp" />
+    <ClCompile Include="Source\SpriteAnimated.cpp" />
+    <ClCompile Include="Source\SpriteString.cpp" />
+    <ClCompile Include="Source\Wander.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

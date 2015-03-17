@@ -9,6 +9,7 @@
 
 #include <SOIL.h>
 #include <iostream>
+#include <vector>
 
 class FrameWork {
 public:

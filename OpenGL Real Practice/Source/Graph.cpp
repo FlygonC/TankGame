@@ -3,19 +3,10 @@
 #include "Graph.h"
 
 Graph::Graph() {
-	sprite.initializeSprite("gridtiles.png", 100, 100, 40, 40);
+	sprite.initializeSprite("Resources\\gridtiles.png", 100, 100, 40, 40);
 	sprite.makeBasicStructure(5, 1);
 	sprite.playFrame(0);
 	sprite.fps = 0;
-}
-
-GraphNode::GraphNode()
-{
-
-}
-
-GraphNode::GraphNode(int a_data) {
-	data = a_data;
 }
 
 void Graph::addNode(GraphNode* a_node) {
@@ -27,7 +18,7 @@ void Graph::addNode(GraphNode* a_node) {
 void Graph::removeNode(GraphNode* a_node) {
 	//Container for the node to delete
 	NodeList::iterator deleteTarget = nodes.end();
-	//Node loop
+	//Node loop \/\/
 	for (NodeList::iterator nodeIter = nodes.begin(); nodeIter != nodes.end(); nodeIter++) {
 		//if iterator is equal to target node, set it to delete
 		if ((*nodeIter) == a_node) {
@@ -38,18 +29,18 @@ void Graph::removeNode(GraphNode* a_node) {
 		}
 		//Container for edge to delete
 		EdgeList::iterator toDelete = (*nodeIter)->edges.end();
-		//Edge loop
+		//Edge loop \/
 		for (EdgeList::iterator edgeIter = (*nodeIter)->edges.begin(); edgeIter != (*nodeIter)->edges.end(); edgeIter++) {
 			//if iterator is equal to edge that points to target node, set it to remove
 			if ((*edgeIter).endNode == a_node) {
 				toDelete = edgeIter;
 			}
-		}
+		}// /\
 		//Delete the edge, if one was found
 		if (toDelete != (*nodeIter)->edges.end()) {
 			(*nodeIter)->edges.erase(toDelete);
 		}
-	}
+	}// /\/\
 	//Delete the node
 	if (deleteTarget != nodes.end()) {
 		nodes.erase(deleteTarget);
@@ -78,8 +69,11 @@ void Graph::printGraph() {
 void Graph::resetVisited() {
 	for (NodeList::iterator nodeIter = nodes.begin(); nodeIter != nodes.end(); nodeIter++) {
 		(*nodeIter)->visited = false;
-		if ((*nodeIter)->data < 4) {
+		if ((*nodeIter)->locked == false) {
 			(*nodeIter)->data = 0;
+		}
+		else {
+			(*nodeIter)->data = 4;
 		}
 	}
 }
@@ -93,11 +87,11 @@ GraphNode* Graph::getByPosition(int a_x, int a_y) {
 }
 
 bool Graph::compareNodesG(const GraphNode* a_node1, const GraphNode* a_node2) {
-	return (a_node1->Gscore > a_node2->Gscore);
+	return (a_node1->Gscore < a_node2->Gscore);
 }
 
 bool Graph::compareNodesF(const GraphNode* a_node1, const GraphNode* a_node2) {
-	return (a_node1->Fscore > a_node2->Fscore);
+	return (a_node1->Fscore < a_node2->Fscore);
 }
 
 bool Graph::SearchDFS(GraphNode* a_start, GraphNode* a_end) {
@@ -138,8 +132,8 @@ bool Graph::SearchDijkstra(GraphNode* a_start, GraphNode* a_end) {
 	a_start->Gscore = 0;
 	int checkCount = 0;
 	while (!NodeQueue.empty()) {
-		GraphNode* Current = NodeQueue.back();
-		NodeQueue.pop_back();
+		GraphNode* Current = NodeQueue.front();
+		NodeQueue.pop_front();
 		if (Current->visited == true) {
 			std::cout << "Passing Node " << Current->number << std::endl;
 			continue;
@@ -182,8 +176,8 @@ bool Graph::SearchAStar(GraphNode* a_start, GraphNode* a_end, float a_inadmissib
 	a_start->Fscore = 0;
 	int checkCount = 0;
 	while (!NodeQueue.empty()) {
-		GraphNode* Current = NodeQueue.back();
-		NodeQueue.pop_back();
+		GraphNode* Current = NodeQueue.front();
+		NodeQueue.pop_front();
 		if (Current->visited == true) {
 			//std::cout << "Passing Node " << Current->number << std::endl;
 			continue;
@@ -207,10 +201,69 @@ bool Graph::SearchAStar(GraphNode* a_start, GraphNode* a_end, float a_inadmissib
 			return true;
 		}
 		for (int i = 0; i < Current->edges.size(); i++) {
-			if (Current->edges[i].endNode->visited == false) {
+			if (Current->edges[i].endNode->visited == false && Current->edges[i].endNode->locked == false) {
 				int Hx = 0;
 				int Hy = 0;
-				NodeQueue.push_back(Current->edges[i].endNode);
+				NodeQueue.push_front(Current->edges[i].endNode);
+				Current->edges[i].endNode->Gscore = (Current->Gscore + Current->edges[i].weight);
+				Hx = abs(a_end->x - Current->edges[i].endNode->x);
+				Hy = abs(a_end->y - Current->edges[i].endNode->y);
+				Current->edges[i].endNode->Fscore = Current->edges[i].endNode->Gscore + ((Hx + Hy) * (a_inadmissible + 1));
+				Current->edges[i].endNode->NLast = Current;
+			}
+		}
+		NodeQueue.sort(compareNodesF);
+	}
+}
+
+bool Graph::SearchAStarSmooth(GraphNode* a_start, GraphNode* a_end, float a_inadmissible) {
+	std::list<GraphNode*> NodeQueue;
+	for (NodeList::iterator nodeIter = nodes.begin(); nodeIter != nodes.end(); nodeIter++) {
+		(*nodeIter)->NLast = NULL;
+		(*nodeIter)->Gscore = INFINITY;
+		(*nodeIter)->Fscore = INFINITY;
+	}
+	NodeQueue.push_back(a_start);
+	a_start->NLast = NodeQueue.back();
+	a_start->Gscore = 0;
+	a_start->Fscore = 0;
+	int checkCount = 0;
+	while (!NodeQueue.empty()) {
+		GraphNode* Current = NodeQueue.front();
+		NodeQueue.pop_front();
+		if (Current->visited == true) {
+			//std::cout << "Passing Node " << Current->number << std::endl;
+			continue;
+		}
+		checkCount++;
+		//Current->data = 2;
+		//std::cout << "Searching: " << Current->number << " (" << Current->x << "," << Current->y << ") From: " << Current->NLast->number << "  G: " << Current->Gscore << "  F: " << Current->Fscore << "  Count: " << checkCount << std::endl;
+		Current->visited = true;
+		if (Current == a_end) {
+			//std::cout << "Done!" << std::endl;
+			GraphNode* Retrace = a_end;
+			GraphNode* RetraceSmooth = a_end;
+			//resetVisited();
+			while (Retrace != a_start) {
+				if (raycast(Retrace->NLast, RetraceSmooth)) {
+					Retrace->data = 2;
+				}
+				else {
+					Retrace->data = 1;
+					RetraceSmooth = Retrace;
+				}
+				Retrace = Retrace->NLast;
+			}
+			//std::cout << a_start->number << std::endl;
+			a_start->data = 3;
+			a_end->data = 3;
+			return true;
+		}
+		for (int i = 0; i < Current->edges.size(); i++) {
+			if (Current->edges[i].endNode->visited == false && Current->edges[i].endNode->locked == false) {
+				int Hx = 0;
+				int Hy = 0;
+				NodeQueue.push_front(Current->edges[i].endNode);
 				Current->edges[i].endNode->Gscore = (Current->Gscore + Current->edges[i].weight);
 				Hx = abs(a_end->x - Current->edges[i].endNode->x);
 				Hy = abs(a_end->y - Current->edges[i].endNode->y);
@@ -235,8 +288,8 @@ bool Graph::SearchThetaStar(GraphNode* a_start, GraphNode* a_end, float a_inadmi
 	a_start->Fscore = 0;
 	int checkCount = 0;
 	while (!NodeQueue.empty()) {
-		GraphNode* Current = NodeQueue.back();
-		NodeQueue.pop_back();
+		GraphNode* Current = NodeQueue.front();
+		NodeQueue.pop_front();
 		if (Current->visited == true) {
 			//std::cout << "Passing Node " << Current->number << std::endl;
 			continue;
@@ -289,24 +342,7 @@ void Graph::drawGrid() {
 }
 
 void Graph::blockNode(GraphNode* a_target) {
-	a_target->edges.clear();
-
-	for (NodeList::iterator nodeIter = nodes.begin(); nodeIter != nodes.end(); nodeIter++) {
-		
-		EdgeList::iterator toDelete = (*nodeIter)->edges.end();
-		//Edge loop
-		for (EdgeList::iterator edgeIter = (*nodeIter)->edges.begin(); edgeIter != (*nodeIter)->edges.end(); edgeIter++) {
-			//if iterator is equal to edge that points to target node, set it to remove
-			if ((*edgeIter).endNode == a_target) {
-				toDelete = edgeIter;
-			}
-		}
-		//Delete the edge, if one was found
-		if (toDelete != (*nodeIter)->edges.end()) {
-			(*nodeIter)->edges.erase(toDelete);
-		}
-	}
-
+	a_target->locked = true;
 	a_target->data = 4;
 }
 

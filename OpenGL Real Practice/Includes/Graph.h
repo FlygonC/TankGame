@@ -8,7 +8,7 @@
 
 #include "SpriteAnimated.h"
 
-#include "Includes\glm\gtx\compatibility.hpp"
+#include "glm\gtx\compatibility.hpp"
 
 struct Edge;
 typedef std::vector<Edge> EdgeList;
@@ -21,6 +21,7 @@ public:
 	unsigned int number;
 	int data, x, y;
 	bool visited = false;
+	bool locked = false;
 	float Gscore, Fscore;
 	GraphNode* NLast;
 };
@@ -49,6 +50,7 @@ public:
 	bool SearchDFS(GraphNode* a_start, GraphNode* a_end);
 	bool SearchDijkstra(GraphNode* a_start, GraphNode* a_end);
 	bool SearchAStar(GraphNode* a_start, GraphNode* a_end, float a_inadmissible);
+	bool SearchAStarSmooth(GraphNode* a_start, GraphNode* a_end, float a_inadmissible);
 	bool SearchThetaStar(GraphNode* a_start, GraphNode* a_end, float a_inadmissible);
 
 	void drawGrid();
