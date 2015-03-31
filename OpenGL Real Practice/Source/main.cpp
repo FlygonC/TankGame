@@ -55,6 +55,9 @@ int main() {
 	FrameWork* root = new FrameWork();
 	float FDeltaTime = getDeltaTime();
 	srand(time(NULL));
+	int fps = 0;
+	float tick = 0;
+	float tickRate = 1.f / 60.f;
 	
 	Graph Grid = Graph();
 	//Graph Justin = Graph();
@@ -80,7 +83,7 @@ int main() {
 	testAgent2.speed = 220;
 
 
-	const int crowdSize = 150;
+	const int crowdSize = 80;
 	std::vector<Agent*> crowd;
 	for (int i = 0; i < crowdSize; i++) {
 		Agent* A = new Agent();
@@ -100,7 +103,6 @@ int main() {
 		crowd[i]->addBehavior(AVOID, &testAgent2, 50, 5);
 		crowd[i]->addBehavior(AVOID, &testAgent1, 50, 5);
 		crowd[i]->speed = 200;
-
 	}
 
 	testAgent1.addBehavior(COHESION, 500, crowd, 100);
@@ -119,7 +121,9 @@ int main() {
 		mousey *= -1;
 		mousey += FrameWork::screenHeight;
 
-		/*for (int i = 0; i < 20; i++) {
+		
+
+		for (int i = 0; i < 20; i++) {
 			for (int j = 0; j < 20; j++) {
 				if (mousex < (Grid.nodes[(j * 20) + i]->x * 40) + 40 && mousex > (Grid.nodes[(j * 20) + i]->x * 40) - 0 &&
 					mousey < (Grid.nodes[(j * 20) + i]->y * 40) + 40 && mousey > (Grid.nodes[(j * 20) + i]->y * 40) - 0) {
@@ -140,14 +144,33 @@ int main() {
 			}
 		}
 
-		Grid.drawGrid();*/
+		//Update Tick
+		tick += FDeltaTime;
+		while (tick >= tickRate) {
+			tick -= tickRate;
 
-		for (int i = 0; i < crowd.size(); i++) {
-			crowd[i]->Update(FDeltaTime);
+			for (int i = 0; i < crowd.size(); i++) {
+				crowd[i]->Update(tickRate);
+			}
+
+			testAgent1.Update(tickRate);
+			testAgent2.Update(tickRate);
+
+
+			//tick = 0;
 		}
 
-		testAgent1.Update(FDeltaTime);
-		testAgent2.Update(FDeltaTime);
+		Grid.drawGrid();
+
+		for (int i = 0; i < crowd.size(); i++) {
+			crowd[i]->Draw();
+		}
+
+		testAgent1.Draw();
+		testAgent2.Draw();
+
+		fps = (int)(1.f / FDeltaTime);
+		//std::cout << fps << std::endl;
 
 		resetTime();
 

@@ -16,6 +16,7 @@ public:
 	//~Agent();
 
 	void Update(float FDelta);
+	void Draw();
 
 	//void changeBehavior(BEHAVE a_behavior);
 	//void changeBehavior(BEHAVE a_behavior, Agent* t_target);

@@ -245,6 +245,7 @@ bool Graph::SearchAStarSmooth(GraphNode* a_start, GraphNode* a_end, float a_inad
 			GraphNode* RetraceSmooth = a_end;
 			//resetVisited();
 			while (Retrace != a_start) {
+				//Smoothes after search
 				if (raycast(Retrace->NLast, RetraceSmooth)) {
 					Retrace->data = 2;
 				}
@@ -321,6 +322,7 @@ bool Graph::SearchThetaStar(GraphNode* a_start, GraphNode* a_end, float a_inadmi
 				Hx = abs(a_end->x - Current->edges[i].endNode->x);
 				Hy = abs(a_end->y - Current->edges[i].endNode->y);
 				Current->edges[i].endNode->Fscore = Current->edges[i].endNode->Gscore + ((Hx + Hy) * (a_inadmissible + 1));
+				//Smoothes as searched \/
 				if (raycast(Current->NLast, Current->edges[i].endNode)) {
 					Current->edges[i].endNode->NLast = Current->NLast;
 				}
@@ -350,9 +352,9 @@ bool Graph::raycast(GraphNode* a_start, GraphNode* a_target) {
 	bool temp = true;
 	glm::vec2 startpos = glm::vec2((a_start->x * sprite.width) + sprite.width / 2, (a_start->y * sprite.height) + sprite.height / 2);
 	glm::vec2 targetpos = glm::vec2((a_target->x * sprite.width) + sprite.width / 2, (a_target->y * sprite.height) + sprite.height / 2);
-	for (int i = 0; i < 100; i++) {
-		for (NodeList::iterator nodeIter = nodes.begin(); nodeIter != nodes.end(); nodeIter++) {
-			if ((*nodeIter)->data == 4) {
+	for (NodeList::iterator nodeIter = nodes.begin(); nodeIter != nodes.end(); nodeIter++) {
+		if ((*nodeIter)->data == 4) {
+			for (int i = 0; i < 100; i++) {
 				glm::vec2 lerpPos = glm::lerp(startpos, targetpos, i*0.01f);
 				glm::vec2 bottomleft = glm::vec2(((*nodeIter)->x * sprite.width), ((*nodeIter)->y * sprite.height));
 				glm::vec2 topright = glm::vec2(((*nodeIter)->x * sprite.width) + sprite.width, ((*nodeIter)->y * sprite.height) + sprite.height);

@@ -50,6 +50,9 @@ void Agent::Update(float FDelta) {
 		position.y += 800;
 	}
 
+}
+
+void Agent::Draw() {
 	sprite.position = position;
 	sprite.Draw();
 }

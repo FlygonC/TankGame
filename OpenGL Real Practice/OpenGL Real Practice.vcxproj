@@ -75,7 +75,6 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Includes\AgentBase.h" />
-    <ClInclude Include="Includes\Flock.h" />
     <ClInclude Include="Includes\FrameWork.h" />
     <ClInclude Include="Includes\Graph.h" />
     <ClInclude Include="Includes\Quad.h" />
@@ -91,7 +90,6 @@
     <ClCompile Include="Source\Cohesion.cpp" />
     <ClCompile Include="Source\Evade.cpp" />
     <ClCompile Include="Source\Flee.cpp" />
-    <ClCompile Include="Source\Flock.cpp" />
     <ClCompile Include="Source\FrameWork.cpp" />
     <ClCompile Include="Source\Graph.cpp" />
     <ClCompile Include="Source\GraphNode.cpp" />
